@@ -1,0 +1,410 @@
+<!DOCTYPE html><html class="dark" lang="en" style="width: 1280px; height: 1154px; overflow: hidden; position: relative;"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>NEUROSCAN EDGE | Mission Control Queue</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&amp;family=JetBrains+Mono:wght@100..800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "inverse-primary": "#00696f",
+                    "inverse-on-surface": "#313030",
+                    "surface-container-low": "#1c1b1b",
+                    "on-tertiary": "#490080",
+                    "on-primary-fixed-variant": "#004f54",
+                    "tertiary-container": "#ebd1ff",
+                    "surface-container": "#201f1f",
+                    "on-background": "#e5e2e1",
+                    "on-tertiary-fixed-variant": "#6900b3",
+                    "on-tertiary-container": "#852cd3",
+                    "on-error": "#690005",
+                    "error-container": "#93000a",
+                    "tertiary-fixed": "#f0dbff",
+                    "on-secondary-fixed-variant": "#003fa4",
+                    "secondary": "#b3c5ff",
+                    "surface": "#131313",
+                    "tertiary-fixed-dim": "#ddb7ff",
+                    "on-secondary-container": "#f9f7ff",
+                    "surface-tint": "#00dbe7",
+                    "on-primary-container": "#006a71",
+                    "tertiary": "#fef4ff",
+                    "surface-container-lowest": "#0e0e0e",
+                    "surface-container-highest": "#353534",
+                    "surface-container-high": "#2a2a2a",
+                    "inverse-surface": "#e5e2e1",
+                    "primary-fixed": "#74f5ff",
+                    "secondary-fixed": "#dae1ff",
+                    "secondary-container": "#0266ff",
+                    "on-tertiary-fixed": "#2c0051",
+                    "error": "#ffb4ab",
+                    "on-error-container": "#ffdad6",
+                    "outline-variant": "#3a494b",
+                    "surface-dim": "#131313",
+                    "on-surface": "#e5e2e1",
+                    "secondary-fixed-dim": "#b3c5ff",
+                    "primary-fixed-dim": "#00dbe7",
+                    "surface-bright": "#393939",
+                    "background": "#131313",
+                    "on-surface-variant": "#b9cacb",
+                    "on-primary-fixed": "#002022",
+                    "primary": "#e1fdff",
+                    "surface-variant": "#353534",
+                    "outline": "#849495",
+                    "on-secondary": "#002b75",
+                    "primary-container": "#00f2ff",
+                    "on-primary": "#00363a",
+                    "on-secondary-fixed": "#001849"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "container-padding": "32px",
+                    "desktop-max-width": "1600px",
+                    "panel-gap": "16px",
+                    "gutter": "24px",
+                    "unit": "8px"
+            },
+            "fontFamily": {
+                    "display-lg": ["Geist"],
+                    "headline-lg": ["Geist"],
+                    "body-md": ["Geist"],
+                    "data-label": ["JetBrains Mono"],
+                    "status-sm": ["JetBrains Mono"],
+                    "headline-lg-mobile": ["Geist"]
+            },
+            "fontSize": {
+                    "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                    "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "0.02em", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "data-label": ["12px", {"lineHeight": "1.4", "letterSpacing": "0.1em", "fontWeight": "500"}],
+                    "status-sm": ["10px", {"lineHeight": "1", "fontWeight": "700"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "1.2", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #000000;
+            background-image: 
+                radial-gradient(circle at 50% -20%, rgba(0, 219, 231, 0.15), transparent 60%),
+                radial-gradient(circle at 0% 100%, rgba(168, 85, 247, 0.1), transparent 40%);
+            min-height: 100vh;
+            color: #e5e2e1;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(40px);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-left: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .critical-pulse {
+            animation: pulse-red 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse-red {
+            0%, 100% { box-shadow: 0 0 15px rgba(239, 68, 68, 0.2); border-color: rgba(239, 68, 68, 0.5); }
+            50% { box-shadow: 0 0 30px rgba(239, 68, 68, 0.6); border-color: rgba(239, 68, 68, 1); }
+        }
+        .neural-glow {
+            background: radial-gradient(circle at top right, rgba(168, 85, 247, 0.15), transparent 70%);
+        }
+        .scanning-line {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #00dbe7, transparent);
+            animation: scan 3s linear infinite;
+        }
+        @keyframes scan {
+            0% { transform: translateY(-100%); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateY(1000%); opacity: 0; }
+        }
+    </style>
+</head>
+<body class="font-body-md">
+<!-- Top Navigation Bar -->
+<header class="fixed top-0 w-full z-50 bg-surface/10 backdrop-blur-[40px] border-b border-white/10 shadow-[0_8px_32px_0_rgba(0,0,0,0.8)]">
+<div class="flex justify-between items-center px-container-padding py-4 w-full">
+<div class="flex items-center gap-6">
+<a href="/" class="font-display-lg text-display-lg tracking-widest text-primary-container drop-shadow-[0_0_10px_rgba(0,219,231,0.5)] cursor-pointer hover:brightness-125 transition-all">NEUROSCAN EDGE</a>
+<nav class="hidden md:flex items-center gap-8 ml-12">
+<a class="text-on-surface-variant hover:text-primary-container transition-all duration-300 font-data-label text-data-label uppercase tracking-widest" href="/command_center">Command Center</a>
+<a class="text-primary border-b-2 border-primary-container pb-1 font-data-label text-data-label uppercase tracking-widest" href="/queue">Patient Queue</a>
+<a class="text-on-surface-variant hover:text-primary-container transition-all duration-300 font-data-label text-data-label uppercase tracking-widest" href="/dossier">Diagnostics</a>
+</nav>
+</div>
+<div class="flex items-center gap-6">
+<div class="hidden lg:flex items-center bg-white/5 border border-white/10 rounded-full px-4 py-2 gap-3">
+<span class="material-symbols-outlined text-primary-fixed-dim text-[18px]">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-data-label font-data-label w-48 text-on-surface placeholder:text-on-surface-variant/50" placeholder="QUERY PATIENT ID..." type="text">
+</div>
+<div class="flex items-center gap-4">
+<a href="/queue" class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-colors">account_tree</a>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-colors">notifications_active</span>
+<span class="material-symbols-outlined text-on-surface-variant hover:text-primary-container transition-all cursor-pointer" onclick="document.getElementById('settings-modal').classList.toggle('hidden')" title="Settings">settings</span>
+<div class="w-10 h-10 rounded-full border border-primary-container/30 overflow-hidden">
+<img alt="Chief Neurosurgeon Avatar" data-alt="A professional portrait of a senior neurosurgeon in a high-tech medical environment. The lighting is cinematic with subtle cyan and purple rim lights reflecting off the futuristic medical attire. The background is a blurred digital interface of a neural command center, maintaining a sophisticated and authoritative atmosphere consistent with the dark-mode healthcare aesthetic." src="https://lh3.googleusercontent.com/aida/AP1WRLtqLaJcKrDH0aoFK29768qyj9zy7NAxEIsrEIwPmSL09Z4h3rLea2KgWdlNRPKk9vUqRVz7X0UbCS7r0LAJtpgD7xRT6Yazf868RrAQK9DYrhO1DAs6h9wEyUXkHRnuEBnugrfrcW5kEP5oK23SvUY7495Smd3SRC6W0O3t4VVTdtiFnM3QqIJxNqf7HlVeieYF6ydmRAWulKJ2seU_yzpo5Jnr9de0hZbJ-vr0Qk3yPpU9eTS9O9hPjcmK">
+</div>
+</div>
+</div>
+</div>
+</header>
+<!-- Side Navigation -->
+<aside class="fixed left-unit top-24 bottom-unit w-64 rounded-xl bg-surface-container/20 backdrop-blur-[60px] border-l border-t border-white/10 shadow-2xl flex flex-col h-[calc(100vh-120px)] py-unit hidden md:flex">
+<div class="px-6 py-4 mb-4">
+<div class="flex items-center gap-2 mb-1">
+<div class="w-2 h-2 rounded-full bg-primary-container animate-pulse"></div>
+<span class="font-data-label text-status-sm text-primary tracking-[0.2em]">AI MODEL ACTIVE</span>
+</div>
+<p class="font-data-label text-[10px] text-on-surface-variant">RISK ENGINE ONLINE</p>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="text-on-surface-variant hover:bg-white/5 transition-colors p-4 flex items-center gap-3" href="/command_center">
+<span class="material-symbols-outlined">psychology</span>
+<span class="font-data-label text-data-label uppercase tracking-widest">Neural Map</span>
+</a>
+<a class="bg-primary-container/20 text-primary-fixed border-l-4 border-primary-container p-4 flex items-center gap-3" href="/queue">
+<span class="material-symbols-outlined">security</span>
+<span class="font-data-label text-data-label uppercase tracking-widest">Risk Engine</span>
+</a>
+<a class="text-on-surface-variant hover:bg-white/5 transition-colors p-4 flex items-center gap-3" href="/queue">
+<span class="material-symbols-outlined">waves</span>
+<span class="font-data-label text-data-label uppercase tracking-widest">Patient Queue</span>
+</a>
+<a class="text-on-surface-variant hover:bg-white/5 transition-colors p-4 flex items-center gap-3" href="/dossier">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-data-label text-data-label uppercase tracking-widest">Dossier</span>
+</a>
+<a class="text-on-surface-variant hover:bg-white/5 transition-colors p-4 flex items-center gap-3" href="/dossier">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="font-data-label text-data-label uppercase tracking-widest">Archive</span>
+</a>
+</nav>
+<div class="mt-auto px-4 pb-4">
+<button onclick="window.location.href='/dossier'" class="w-full py-3 bg-primary-container text-on-primary font-data-label text-data-label rounded-lg tracking-widest hover:brightness-110 active:scale-95 transition-all">
+                GENERATE DOSSIER
+            </button>
+<div class="mt-4 flex flex-col gap-2">
+<a class="text-on-surface-variant hover:text-on-surface flex items-center gap-2 p-2 transition-colors" href="#">
+<span class="material-symbols-outlined text-[18px]">help_outline</span>
+<span class="font-data-label text-[10px]">Support</span>
+</a>
+<a class="text-on-surface-variant hover:text-on-surface flex items-center gap-2 p-2 transition-colors" href="#">
+<span class="material-symbols-outlined text-[18px]">terminal</span>
+<span class="font-data-label text-[10px]">Terminal</span>
+</a>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="md:ml-72 pt-28 px-container-padding pb-24 max-w-desktop-max-width mx-auto">
+<!-- Header Live Counters -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-panel-gap mb-12">
+<div class="glass-panel rounded-xl p-6 relative overflow-hidden group">
+<div class="absolute top-0 right-0 w-32 h-32 bg-error/10 blur-3xl rounded-full"></div>
+<p class="font-data-label text-data-label text-on-surface-variant mb-2 uppercase tracking-widest">Critical Cases</p>
+<div class="flex items-baseline gap-4">
+<h2 id="critical-count" class="font-display-lg text-display-lg text-error">0</h2>
+<span class="text-error/60 font-data-label text-status-sm animate-pulse flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]" style="font-variation-settings: 'FILL' 1;">warning</span>
+                        IMMEDIATE ACTION
+                    </span>
+</div>
+</div>
+<div class="glass-panel rounded-xl p-6 relative overflow-hidden">
+<div class="absolute top-0 right-0 w-32 h-32 bg-secondary-container/10 blur-3xl rounded-full"></div>
+<p class="font-data-label text-data-label text-on-surface-variant mb-2 uppercase tracking-widest">Priority Cases</p>
+<div class="flex items-baseline gap-4">
+<h2 id="priority-count" class="font-display-lg text-display-lg text-secondary">0</h2>
+<span class="text-secondary/60 font-data-label text-status-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">schedule</span>
+                        MONITORING
+                    </span>
+</div>
+</div>
+<div class="glass-panel rounded-xl p-6 relative overflow-hidden">
+<div class="absolute top-0 right-0 w-32 h-32 bg-primary-container/10 blur-3xl rounded-full"></div>
+<p class="font-data-label text-data-label text-on-surface-variant mb-2 uppercase tracking-widest">Routine Cases</p>
+<div class="flex items-baseline gap-4">
+<h2 id="routine-count" class="font-display-lg text-display-lg text-primary-fixed-dim">0</h2>
+<span class="text-primary-fixed-dim/60 font-data-label text-status-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">check_circle</span>
+                        STABLE
+                    </span>
+</div>
+</div>
+</section>
+<!-- Mission Control Queue -->
+<section class="space-y-4">
+<div class="flex items-center justify-between px-6 mb-4">
+<div class="grid grid-cols-12 w-full gap-4 font-data-label text-[10px] text-on-surface-variant uppercase tracking-[0.2em]">
+<div class="col-span-4">Patient Identity &amp; Neural ID</div>
+<div class="col-span-3 text-center">AI Risk Level</div>
+<div class="col-span-2 text-center">Priority Status</div>
+<div class="col-span-2 text-center">Queue Duration</div>
+<div class="col-span-1"></div>
+</div>
+</div>
+<!-- Dynamic Queue Cards -->
+<div id="queue-list" class="space-y-4">
+    <div class="glass-panel rounded-xl p-8 text-center text-on-surface-variant font-data-label text-data-label">Loading queue data...</div>
+</div>
+</section>
+<!-- System Visualization Panel (Asymmetric Sidebar Element) -->
+<section class="mt-12 grid grid-cols-1 lg:grid-cols-12 gap-panel-gap">
+<div class="lg:col-span-8 glass-panel rounded-xl p-8 relative overflow-hidden h-64">
+<div class="absolute inset-0 opacity-20 pointer-events-none">
+<img class="w-full h-full object-cover" data-alt="A macro photography view of glowing fiber optic cables and circuit patterns forming a complex neural network. The aesthetic is deep black and neon cyan, representing advanced AI architecture and high-speed data transmission. Soft bokeh and lens flare effects create a cinematic depth, emphasizing the futuristic and sophisticated nature of the NeuroScan Edge system's back-end infrastructure." src="https://lh3.googleusercontent.com/aida/AP1WRLubsgzstAFwmWS9nzltP8LcdwYAwzDsfXeDMG-vsfmTLKpe5D6_xPpOv4osMBewU_cOv7_Azh-RfgKVJ7i95C5OGDB_rMdCbXxnigA1FTPU4-RY-_uHKqZ0yCNf-orswjXFPG8EQv4raX6KwRqlgjkCwKcqdMlJLSQK9k5VRIXQA-o-ddFa9paGZFBoUXh8Mdq_AR7iiswRikzUnKXbo0EvS-dmdoAxOOfDhSaxfKqdRatYiju6WIXATuA">
+</div>
+<div class="relative z-10 flex flex-col h-full">
+<div class="flex justify-between items-start mb-auto">
+<div>
+<h3 class="font-headline-lg text-headline-lg text-primary mb-2">NEURAL PIPELINE LATENCY</h3>
+<p class="font-data-label text-data-label text-on-surface-variant">REAL-TIME BIOMETRIC STREAM PROCESSING</p>
+</div>
+<div class="text-right">
+<p class="font-data-label text-display-lg text-[24px] text-primary-container">1.2ms</p>
+<span class="font-status-sm text-status-sm text-primary-container/60 uppercase tracking-widest">OPTIMAL OPS</span>
+</div>
+</div>
+<div class="flex gap-1 h-12 items-end">
+<div class="flex-1 bg-primary/20 h-[40%] rounded-t-sm hover:h-[80%] transition-all duration-500"></div>
+<div class="flex-1 bg-primary/20 h-[60%] rounded-t-sm hover:h-[90%] transition-all duration-500"></div>
+<div class="flex-1 bg-primary/20 h-[30%] rounded-t-sm hover:h-[70%] transition-all duration-500"></div>
+<div class="flex-1 bg-primary/20 h-[50%] rounded-t-sm hover:h-[85%] transition-all duration-500"></div>
+<div class="flex-1 bg-primary/20 h-[45%] rounded-t-sm hover:h-[75%] transition-all duration-500"></div>
+<div class="flex-1 bg-primary-container/60 h-[95%] rounded-t-sm animate-pulse"></div>
+<div class="flex-1 bg-primary/20 h-[55%] rounded-t-sm hover:h-[85%] transition-all duration-500"></div>
+<div class="flex-1 bg-primary/20 h-[35%] rounded-t-sm hover:h-[75%] transition-all duration-500"></div>
+<div class="flex-1 bg-primary/20 h-[65%] rounded-t-sm hover:h-[95%] transition-all duration-500"></div>
+<div class="flex-1 bg-primary/20 h-[50%] rounded-t-sm hover:h-[80%] transition-all duration-500"></div>
+</div>
+</div>
+</div>
+<div class="lg:col-span-4 glass-panel rounded-xl p-8 flex flex-col justify-between h-64">
+<div class="flex items-center gap-3 mb-6">
+<span class="material-symbols-outlined text-primary-container">hub</span>
+<h3 class="font-headline-lg text-[20px] text-on-surface uppercase tracking-widest">Global Sync</h3>
+</div>
+<div class="space-y-4">
+<div class="flex justify-between items-center">
+<span class="font-data-label text-[10px] text-on-surface-variant">TOKYO UNIT</span>
+<span class="font-data-label text-[12px] text-primary">SYNCED</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="font-data-label text-[10px] text-on-surface-variant">BERLIN NODE</span>
+<span class="font-data-label text-[12px] text-primary">SYNCED</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="font-data-label text-[10px] text-on-surface-variant">AUSTIN HUB</span>
+<div class="flex items-center gap-2">
+<span class="w-1.5 h-1.5 rounded-full bg-error animate-ping"></span>
+<span class="font-data-label text-[12px] text-error">RETRYING</span>
+</div>
+</div>
+</div>
+<div class="mt-4 pt-4 border-t border-white/5">
+<p class="font-status-sm text-status-sm text-on-surface-variant/40 text-center tracking-[0.3em]">SECURE L-7 ENCRYPTION ACTIVE</p>
+</div>
+</div>
+</section>
+</main>
+<!-- Settings Modal -->
+<div id="settings-modal" class="hidden fixed inset-0 z-[60] flex items-center justify-center bg-black/60 backdrop-blur-sm">
+<div class="glass-panel rounded-2xl p-8 w-full max-w-md border border-white/10 shadow-2xl">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-headline-lg text-headline-lg text-primary">Settings</h3>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-error" onclick="document.getElementById('settings-modal').classList.add('hidden')">close</span>
+</div>
+<div class="space-y-4">
+<div class="flex justify-between items-center py-3 border-b border-white/5">
+<span class="font-data-label text-data-label text-on-surface-variant">AI MODEL</span>
+<span class="font-data-label text-data-label text-primary">DenseNet-121 (All)</span>
+</div>
+<div class="flex justify-between items-center py-3 border-b border-white/5">
+<span class="font-data-label text-data-label text-on-surface-variant">DETECTION THRESHOLD</span>
+<span class="font-data-label text-data-label text-primary">0.40</span>
+</div>
+<div class="flex justify-between items-center py-3 border-b border-white/5">
+<span class="font-data-label text-data-label text-on-surface-variant">HEATMAP ENGINE</span>
+<span class="font-data-label text-data-label text-primary">GradCAM</span>
+</div>
+<div class="flex justify-between items-center py-3 border-b border-white/5">
+<span class="font-data-label text-data-label text-on-surface-variant">SERVER STATUS</span>
+<span class="font-data-label text-data-label text-primary-container flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-primary-container animate-pulse"></span>ONLINE</span>
+</div>
+<div class="flex justify-between items-center py-3">
+<span class="font-data-label text-data-label text-on-surface-variant">VERSION</span>
+<span class="font-data-label text-data-label text-on-surface">v4.2.0-STABLE</span>
+</div>
+</div>
+<button onclick="document.getElementById('settings-modal').classList.add('hidden')" class="w-full mt-6 py-3 bg-primary-container text-on-primary font-data-label text-data-label rounded-lg tracking-widest hover:brightness-110 active:scale-95 transition-all">CLOSE</button>
+</div>
+</div>
+<!-- Footer System Health -->
+<footer class="fixed bottom-0 w-full z-40 bg-surface/80 backdrop-blur-md border-t border-white/10 px-container-padding py-3">
+<div class="flex flex-wrap justify-between items-center gap-4">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-primary-container shadow-[0_0_8px_#00dbe7]"></div>
+<span class="font-data-label text-status-sm text-on-surface uppercase tracking-widest">System Health: 99.98%</span>
+</div>
+<div class="hidden sm:flex items-center gap-2">
+<span class="material-symbols-outlined text-[14px] text-on-surface-variant">memory</span>
+<span class="font-data-label text-status-sm text-on-surface-variant uppercase tracking-widest">Neural Uptime: 4,122H</span>
+</div>
+<div class="hidden sm:flex items-center gap-2">
+<span class="material-symbols-outlined text-[14px] text-on-surface-variant">cloud_done</span>
+<span class="font-data-label text-status-sm text-on-surface-variant uppercase tracking-widest">Database Linked</span>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-3">
+<div class="text-right">
+<p class="font-data-label text-[10px] leading-none text-on-surface-variant mb-1 uppercase">Transmission Rate</p>
+<p class="font-data-label text-[12px] leading-none text-primary">48.5 GB/s</p>
+</div>
+<div class="w-12 h-6 flex items-end gap-0.5">
+<div class="w-1 bg-primary/40 h-[20%]"></div>
+<div class="w-1 bg-primary/40 h-[40%]"></div>
+<div class="w-1 bg-primary/40 h-[30%]"></div>
+<div class="w-1 bg-primary/40 h-[70%]"></div>
+<div class="w-1 bg-primary/40 h-[50%]"></div>
+</div>
+</div>
+<span class="font-data-label text-[10px] text-on-surface-variant/40">© 2024 NEUROSCAN EDGE v2.4.0-STABLE</span>
+</div>
+</div>
+</footer>
+<!-- Mobile FAB -->
+<button class="md:hidden fixed bottom-20 right-6 w-16 h-16 rounded-full bg-primary-container text-on-primary shadow-2xl flex items-center justify-center z-50 active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-[32px]">add</span>
+</button>
+<script>
+        // Micro-interaction: Update timestamps and latency numbers
+        setInterval(() => {
+            const latency = (Math.random() * (1.3 - 1.1) + 1.1).toFixed(1);
+            document.querySelector('.text-display-lg.text-primary-container').textContent = latency + 'ms';
+        }, 3000);
+
+        // Simple hover effect for "glass" cards to follow cursor light (pseudo implementation)
+        document.querySelectorAll('.glass-panel').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                card.style.setProperty('--mouse-x', `${x}px`);
+                card.style.setProperty('--mouse-y', `${y}px`);
+            });
+        });
+    </script>
+<div id="snapdom-sandbox" data-snapdom-sandbox="true" aria-hidden="true" style="position: absolute; left: -9999px; top: -9999px; width: 0px; height: 0px; overflow: hidden;"></div><script src="/static/main.js"></script></body></html>
