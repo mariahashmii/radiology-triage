@@ -1,0 +1,413 @@
+<!DOCTYPE html><html class="dark" lang="en" style="width: 1280px; height: 1774px; overflow: hidden; position: relative;"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>NEUROSCAN EDGE | Clinical Intelligence Dossier</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&amp;family=JetBrains+Mono:wght@100..800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "inverse-primary": "#00696f",
+                        "inverse-on-surface": "#313030",
+                        "surface-container-low": "#1c1b1b",
+                        "on-tertiary": "#490080",
+                        "on-primary-fixed-variant": "#004f54",
+                        "tertiary-container": "#ebd1ff",
+                        "surface-container": "#201f1f",
+                        "on-background": "#e5e2e1",
+                        "on-tertiary-fixed-variant": "#6900b3",
+                        "on-tertiary-container": "#852cd3",
+                        "on-error": "#690005",
+                        "error-container": "#93000a",
+                        "tertiary-fixed": "#f0dbff",
+                        "on-secondary-fixed-variant": "#003fa4",
+                        "secondary": "#b3c5ff",
+                        "surface": "#131313",
+                        "tertiary-fixed-dim": "#ddb7ff",
+                        "on-secondary-container": "#f9f7ff",
+                        "surface-tint": "#00dbe7",
+                        "on-primary-container": "#006a71",
+                        "tertiary": "#fef4ff",
+                        "surface-container-lowest": "#0e0e0e",
+                        "surface-container-highest": "#353534",
+                        "surface-container-high": "#2a2a2a",
+                        "inverse-surface": "#e5e2e1",
+                        "primary-fixed": "#74f5ff",
+                        "secondary-fixed": "#dae1ff",
+                        "secondary-container": "#0266ff",
+                        "on-tertiary-fixed": "#2c0051",
+                        "error": "#ffb4ab",
+                        "on-error-container": "#ffdad6",
+                        "outline-variant": "#3a494b",
+                        "surface-dim": "#131313",
+                        "on-surface": "#e5e2e1",
+                        "secondary-fixed-dim": "#b3c5ff",
+                        "primary-fixed-dim": "#00dbe7",
+                        "surface-bright": "#393939",
+                        "background": "#131313",
+                        "on-surface-variant": "#b9cacb",
+                        "on-primary-fixed": "#002022",
+                        "primary": "#e1fdff",
+                        "surface-variant": "#353534",
+                        "outline": "#849495",
+                        "on-secondary": "#002b75",
+                        "primary-container": "#00f2ff",
+                        "on-primary": "#00363a",
+                        "on-secondary-fixed": "#001849"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-padding": "32px",
+                        "desktop-max-width": "1600px",
+                        "panel-gap": "16px",
+                        "gutter": "24px",
+                        "unit": "8px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Geist"],
+                        "headline-lg": ["Geist"],
+                        "body-md": ["Geist"],
+                        "data-label": ["JetBrains Mono"],
+                        "status-sm": ["JetBrains Mono"],
+                        "headline-lg-mobile": ["Geist"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                        "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "0.02em", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "data-label": ["12px", {"lineHeight": "1.4", "letterSpacing": "0.1em", "fontWeight": "500"}],
+                        "status-sm": ["10px", {"lineHeight": "1", "fontWeight": "700"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "1.2", "fontWeight": "600"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            background-color: #000000;
+            color: #e5e2e1;
+            overflow-x: hidden;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(40px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            border-left: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .neural-glow {
+            background: radial-gradient(circle at top right, rgba(168, 85, 247, 0.15), transparent 60%);
+        }
+        .scanline {
+            width: 100%;
+            height: 2px;
+            background: #00dbe7;
+            position: absolute;
+            top: 0;
+            left: 0;
+            box-shadow: 0 0 15px #00dbe7;
+            animation: scan 4s linear infinite;
+            z-index: 10;
+        }
+        @keyframes scan {
+            0% { top: 0%; opacity: 0; }
+            5% { opacity: 1; }
+            95% { opacity: 1; }
+            100% { top: 100%; opacity: 0; }
+        }
+        .glitch-text:hover {
+            animation: glitch 0.3s cubic-bezier(.25,.46,.45,.94) both infinite;
+        }
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); }
+        }
+    </style>
+</head>
+<body class="font-body-md text-body-md antialiased">
+<!-- Top Navigation Bar -->
+<header class="fixed top-0 w-full z-50 bg-surface/10 backdrop-blur-[40px] border-b border-white/10 flex justify-between items-center px-container-padding py-4 w-full shadow-[0_8px_32px_0_rgba(0,0,0,0.8)]">
+<div class="font-display-lg text-display-lg tracking-widest text-primary-container drop-shadow-[0_0_10px_rgba(0,219,231,0.5)]">
+            NEUROSCAN EDGE
+        </div>
+<div class="flex items-center gap-8">
+<nav class="hidden md:flex gap-6 font-data-label text-data-label">
+<a href="/command_center" class="text-on-surface-variant hover:text-primary-container transition-all cursor-pointer">LIVE FEED</a>
+<a href="/dossier" class="text-primary border-b-2 border-primary-container pb-1 cursor-pointer">ARCHIVE</a>
+<a href="/queue" class="text-on-surface-variant hover:text-primary-container transition-all cursor-pointer">ANALYTICS</a>
+</nav>
+<div class="flex items-center gap-4">
+<a href="/queue" class="material-symbols-outlined text-primary cursor-pointer active:scale-95">notifications_active</a>
+<span class="material-symbols-outlined text-primary cursor-pointer active:scale-95" onclick="document.getElementById('settings-modal').classList.toggle('hidden')" title="Settings">settings</span>
+<div class="h-10 w-10 rounded-full border border-primary-container/30 overflow-hidden">
+<img alt="Chief Neurosurgeon Avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/AP1WRLvtNa-IV-i04joSUlJ7pSUN1iOnMOLWet1dzhF6B16dHHqVbnMwEy2zkqvRQPflOOSvxFzccdYtcuW0S7q6CYyztjsDP3b4elYLapxhbysqlujo6OQu0TpVJDS7ovz1StE5mg-cC8hjj4DHPGQIRE2_yr8ji_gMbqDRucv9f_hetXtm7R9P-YLuxDt5pbGoVfB0Cza-s5f6jN5-yr8EIV1IMUCSt7Ip1yEIiyu2uuQs7D_oD5yVMIi-1Zc">
+</div>
+</div>
+</div>
+</header>
+<!-- Side Navigation -->
+<aside class="fixed left-unit top-24 bottom-unit w-64 rounded-xl bg-surface-container/20 backdrop-blur-[60px] border-l border-t border-white/10 shadow-2xl flex flex-col h-full py-unit z-40 hidden md:flex">
+<div class="p-6">
+<div class="text-primary font-headline-lg text-headline-lg mb-1">AI MODEL ACTIVE</div>
+<div class="text-on-surface-variant text-[10px] tracking-widest font-data-label uppercase">RISK ENGINE ONLINE</div>
+</div>
+<nav class="flex-1 px-2 space-y-1">
+<a href="/command_center" class="text-on-surface-variant hover:text-on-surface p-4 flex items-center gap-3 font-data-label text-data-label transition-all hover:bg-white/5 cursor-pointer">
+<span class="material-symbols-outlined">psychology</span> Neural Map
+            </a>
+<a href="/queue" class="text-on-surface-variant hover:text-on-surface p-4 flex items-center gap-3 font-data-label text-data-label transition-all hover:bg-white/5 cursor-pointer">
+<span class="material-symbols-outlined">security</span> Risk Engine
+            </a>
+<a href="/queue" class="text-on-surface-variant hover:text-on-surface p-4 flex items-center gap-3 font-data-label text-data-label transition-all hover:bg-white/5 cursor-pointer">
+<span class="material-symbols-outlined">waves</span> Patient Flux
+            </a>
+<a href="/dossier" class="text-on-surface-variant hover:text-on-surface p-4 flex items-center gap-3 font-data-label text-data-label transition-all hover:bg-white/5 cursor-pointer">
+<span class="material-symbols-outlined">analytics</span> Bio-Telemetry
+            </a>
+<a href="/dossier" class="bg-primary-container/20 text-primary-fixed border-l-4 border-primary-container p-4 flex items-center gap-3 font-data-label text-data-label cursor-pointer">
+<span class="material-symbols-outlined">inventory_2</span> Archive
+            </a>
+</nav>
+<div class="p-4 mt-auto">
+<button onclick="window.location.href='/dossier'" class="w-full bg-primary-container text-on-primary font-data-label py-3 rounded-lg hover:shadow-[0_0_20px_rgba(0,242,255,0.4)] transition-all">
+                GENERATE DOSSIER
+            </button>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="pt-28 pb-12 px-container-padding md:pl-80 max-w-desktop-max-width mx-auto">
+<!-- Dossier Header Section -->
+<section class="mb-12">
+<div class="flex flex-col md:flex-row justify-between items-end gap-6">
+<div>
+<div class="flex items-center gap-3 mb-2">
+<span class="bg-error text-on-error font-status-sm text-status-sm px-2 py-1 rounded">CLASSIFIED</span>
+<span id="dossier-case-id" class="text-primary-fixed-dim font-data-label text-data-label">CASE ID: ---</span>
+</div>
+<h1 class="font-display-lg text-display-lg uppercase tracking-tighter text-primary">Intelligence Dossier</h1>
+<p class="text-on-surface-variant max-w-xl">Deep-tissue neural analysis and risk assessment report generated by NEUROSCAN EDGE Core v4.2. Secure transmission authorized for attending neurosurgical staff only.</p>
+</div>
+<div class="flex gap-4">
+<button class="glass-panel px-6 py-3 flex items-center gap-2 hover:bg-white/10 transition-all active:scale-95">
+<span class="material-symbols-outlined text-primary-fixed-dim">print</span>
+<span class="font-data-label text-data-label">PDF EXPORT</span>
+</button>
+<button class="bg-primary-container/10 border border-primary-container/40 text-primary-container px-6 py-3 flex items-center gap-2 hover:bg-primary-container/20 transition-all active:scale-95">
+<span class="material-symbols-outlined">share</span>
+<span class="font-data-label text-data-label">SECURE SHARE</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Main Dossier Content (Bento Grid) -->
+<div class="grid grid-cols-12 gap-6">
+<!-- Patient Overview Card -->
+<div class="col-span-12 lg:col-span-4 glass-panel p-6 rounded-xl neural-glow">
+<div class="flex justify-between items-start mb-8">
+<div class="flex items-center gap-4">
+<div class="w-16 h-16 rounded-lg bg-surface-container overflow-hidden border border-white/10">
+<img alt="Patient Avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/AP1WRLsdV4ZcLtDI6wHMVaCkFrgRmbs5cjDL_R71YhMc9kRuSnObsD2fAB0pkjkdtU45w3Xk3lmPGLM-2FzROiWMDztoRPbODq6IbiP0GNqppUoQA3Ur07gHwanD1w32GuYHWeNLOiOmERqDZGm0Kg0EAk3Ml_7Q7BX9KbUSHVotaq8CoKlIOI4v7pPLOaObhqWZ4pNmwlPLmywVrTbZDOlbru87TGfDKbGQB6Kws5rUgvpPOTcmTemajB0hRaTb">
+</div>
+<div>
+<div id="dossier-patient-name" class="font-headline-lg text-headline-lg text-primary">---</div>
+<div id="dossier-patient-age" class="font-data-label text-data-label text-on-surface-variant">Age: --</div>
+</div>
+</div>
+<div class="text-right">
+<div id="dossier-status" class="text-primary-container font-data-label text-data-label">--</div>
+<div id="dossier-patient-gender" class="text-[10px] text-on-surface-variant">--</div>
+</div>
+</div>
+<div class="space-y-4">
+<div class="flex justify-between items-center py-2 border-b border-white/5">
+<span class="text-on-surface-variant font-data-label text-data-label">ADMISSION DATE</span>
+<span class="text-primary-fixed font-data-label text-data-label">24.05.2024</span>
+</div>
+<div class="flex justify-between items-center py-2 border-b border-white/5">
+<span class="text-on-surface-variant font-data-label text-data-label">BLOOD TYPE</span>
+<span class="text-primary-fixed font-data-label text-data-label">O- POSITIVE</span>
+</div>
+<div class="flex justify-between items-center py-2 border-b border-white/5">
+<span class="text-on-surface-variant font-data-label text-data-label">GCS SCORE</span>
+<span class="text-primary-fixed font-data-label text-data-label">15/15</span>
+</div>
+<div class="flex justify-between items-center py-2 border-b border-white/5">
+<span class="text-on-surface-variant font-data-label text-data-label">AI CONFIDENCE</span>
+<span id="dossier-top-finding" class="text-primary-fixed font-data-label text-data-label">--</span>
+</div>
+</div>
+</div>
+<!-- Risk Scoring Gauge -->
+<div class="col-span-12 lg:col-span-8 glass-panel p-6 rounded-xl overflow-hidden relative">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-headline-lg text-headline-lg text-primary">COMPREHENSIVE RISK SCORING</h3>
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-error animate-pulse"></span>
+<span class="font-status-sm text-status-sm text-error uppercase">High Risk Detected</span>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center h-full">
+<div class="relative flex flex-col items-center">
+<svg class="w-40 h-40 transform -rotate-90">
+<circle class="text-surface-container-high" cx="80" cy="80" fill="transparent" r="70" stroke="currentColor" stroke-width="8"></circle>
+<circle id="dossier-risk-ring" class="text-error" cx="80" cy="80" fill="transparent" r="70" stroke="currentColor" stroke-dasharray="440" stroke-dashoffset="440" stroke-width="8"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span id="dossier-risk-gauge" class="text-display-lg font-display-lg text-error">--</span>
+<span class="text-status-sm font-status-sm text-on-surface-variant uppercase">Risk Score</span>
+</div>
+</div>
+<div id="dossier-risk-bars" class="md:col-span-2 space-y-6">
+    <div class="text-on-surface-variant font-data-label text-data-label opacity-60">Upload a scan to view risk breakdown.</div>
+</div>
+</div>
+</div>
+<!-- Side-by-Side Comparison -->
+<div class="col-span-12 glass-panel p-6 rounded-xl">
+<div class="flex justify-between items-center mb-8">
+<div>
+<h3 class="font-headline-lg text-headline-lg text-primary">VISUAL DIAGNOSTICS</h3>
+<p class="text-on-surface-variant text-body-md">Original X-Ray vs Synthetic AI Heatmap</p>
+</div>
+<div class="flex gap-2">
+<span class="material-symbols-outlined p-2 glass-panel cursor-pointer hover:text-primary transition-all">zoom_in</span>
+<span class="material-symbols-outlined p-2 glass-panel cursor-pointer hover:text-primary transition-all">layers</span>
+<span class="material-symbols-outlined p-2 glass-panel cursor-pointer hover:text-primary transition-all">contrast</span>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="relative rounded-lg overflow-hidden border border-white/5 aspect-video bg-black flex items-center justify-center">
+<img id="dossier-original-img" alt="Original Scan" class="w-full h-full object-cover grayscale opacity-80">
+<div class="absolute bottom-4 left-4 glass-panel px-3 py-1 font-status-sm text-status-sm text-primary uppercase">ORIGINAL SCAN</div>
+</div>
+<div class="relative rounded-lg overflow-hidden border border-primary-container/30 aspect-video bg-black flex items-center justify-center">
+<div class="scanline"></div>
+<img id="dossier-heatmap-img" alt="AI Heatmap" class="w-full h-full object-cover mix-blend-screen">
+<div class="absolute top-0 left-0 w-full h-full bg-primary-container/10 pointer-events-none"></div>
+<div class="absolute bottom-4 left-4 bg-primary-container/20 backdrop-blur-md border border-primary-container px-3 py-1 font-status-sm text-status-sm text-primary-container uppercase">AI ENHANCED | HEATMAP ACTIVE</div>
+</div>
+</div>
+</div>
+<!-- Findings Summary & Reasoning Graph -->
+<div class="col-span-12 lg:col-span-7 glass-panel p-6 rounded-xl">
+<h3 class="font-headline-lg text-headline-lg text-primary mb-6">MULTIMODAL REASONING</h3>
+<div id="dossier-findings" class="space-y-6">
+    <div class="text-on-surface-variant font-data-label text-data-label opacity-60">No scan data loaded.</div>
+</div>
+<!-- Reasoning Log -->
+<div class="mt-8 p-4 bg-surface-container-lowest rounded-lg border border-white/5 font-data-label text-[10px] text-on-surface-variant leading-relaxed">
+<div class="text-primary-container mb-2">/EXECUTE REASONING_ENGINE_V4</div>
+<div id="dossier-reason" class="text-on-surface-variant">Awaiting scan data...</div>
+<div id="dossier-timestamp" class="text-primary-fixed mt-2"></div>
+</div>
+</div>
+<!-- Verification & AI Status -->
+<div class="col-span-12 lg:col-span-5 glass-panel p-6 rounded-xl flex flex-col justify-between">
+<div>
+<h3 class="font-headline-lg text-headline-lg text-primary mb-6">VERIFICATION</h3>
+<div class="p-4 border border-white/10 rounded-lg bg-surface/30 mb-6">
+<div class="flex items-center gap-4 mb-4">
+<div class="w-12 h-12 rounded bg-white/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary-fixed-dim">verified_user</span>
+</div>
+<div>
+<div class="font-data-label text-data-label">DIGITAL SIGNATURE</div>
+<div class="text-[10px] text-on-surface-variant font-data-label">SHA-256: 8a4c1...9f2d</div>
+</div>
+</div>
+<div class="h-20 w-full bg-white/5 rounded flex items-center justify-center border border-dashed border-white/10">
+<span class="font-data-label text-on-surface-variant italic">Electronic Sign: Dr. Elias Thorne</span>
+</div>
+</div>
+</div>
+<div class="space-y-4">
+<div class="flex justify-between items-end">
+<div class="font-data-label text-data-label uppercase text-on-surface-variant">Model Version</div>
+<div class="text-primary font-headline-lg leading-none">V 4.2.0</div>
+</div>
+<div class="flex justify-between items-end">
+<div class="font-data-label text-data-label uppercase text-on-surface-variant">Last Update</div>
+<div class="text-primary font-body-md">Live</div>
+</div>
+<button class="w-full glass-panel py-4 flex items-center justify-center gap-3 hover:bg-white/10 transition-all border-primary-container/30">
+<span class="material-symbols-outlined text-primary-container">qr_code_2</span>
+<span class="font-data-label text-data-label tracking-widest">VALIDATE EXTERNAL</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Footer / Legend -->
+<footer class="mt-12 flex flex-col md:flex-row justify-between items-center gap-4 py-6 border-t border-white/10 text-on-surface-variant font-data-label text-[10px] uppercase tracking-widest">
+<div>© 2024 NEUROSCAN EDGE SYSTEMS | ALL RIGHTS RESERVED</div>
+<div class="flex gap-6">
+<span>Terms of Access</span>
+<span>Privacy Protocol</span>
+<span>System Status: <span class="text-primary-container">Optimal</span></span>
+</div>
+</footer>
+</main>
+<!-- Settings Modal -->
+<div id="settings-modal" class="hidden fixed inset-0 z-[60] flex items-center justify-center bg-black/60 backdrop-blur-sm">
+<div class="glass-panel rounded-2xl p-8 w-full max-w-md border border-white/10 shadow-2xl">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-headline-lg text-headline-lg text-primary">Settings</h3>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-error" onclick="document.getElementById('settings-modal').classList.add('hidden')">close</span>
+</div>
+<div class="space-y-4">
+<div class="flex justify-between items-center py-3 border-b border-white/5">
+<span class="font-data-label text-data-label text-on-surface-variant">AI MODEL</span>
+<span class="font-data-label text-data-label text-primary">DenseNet-121 (All)</span>
+</div>
+<div class="flex justify-between items-center py-3 border-b border-white/5">
+<span class="font-data-label text-data-label text-on-surface-variant">DETECTION THRESHOLD</span>
+<span class="font-data-label text-data-label text-primary">0.40</span>
+</div>
+<div class="flex justify-between items-center py-3 border-b border-white/5">
+<span class="font-data-label text-data-label text-on-surface-variant">HEATMAP ENGINE</span>
+<span class="font-data-label text-data-label text-primary">GradCAM</span>
+</div>
+<div class="flex justify-between items-center py-3 border-b border-white/5">
+<span class="font-data-label text-data-label text-on-surface-variant">SERVER STATUS</span>
+<span class="font-data-label text-data-label text-primary-container flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-primary-container animate-pulse"></span>ONLINE</span>
+</div>
+<div class="flex justify-between items-center py-3">
+<span class="font-data-label text-data-label text-on-surface-variant">VERSION</span>
+<span class="font-data-label text-data-label text-on-surface">v4.2.0-STABLE</span>
+</div>
+</div>
+<button onclick="document.getElementById('settings-modal').classList.add('hidden')" class="w-full mt-6 py-3 bg-primary-container text-on-primary font-data-label text-data-label rounded-lg tracking-widest hover:brightness-110 active:scale-95 transition-all">CLOSE</button>
+</div>
+</div>
+<!-- Interactions Script -->
+<script>
+        // Simple Micro-interactions for Atmospheric effects
+        document.addEventListener('mousemove', (e) => {
+            const panels = document.querySelectorAll('.glass-panel');
+            const mouseX = e.clientX / window.innerWidth;
+            const mouseY = e.clientY / window.innerHeight;
+
+            panels.forEach(panel => {
+                const shiftX = (mouseX - 0.5) * 10;
+                const shiftY = (mouseY - 0.5) * 10;
+                // panel.style.transform = `translate(${shiftX}px, ${shiftY}px)`; // Disabled for layout stability
+            });
+        });
+
+        // Pulsing scan line toggle logic or restart could go here
+    </script>
+<div id="snapdom-sandbox" data-snapdom-sandbox="true" aria-hidden="true" style="position: absolute; left: -9999px; top: -9999px; width: 0px; height: 0px; overflow: hidden;"></div><script src="/static/main.js"></script></body></html>
